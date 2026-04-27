@@ -2,6 +2,9 @@ from supabase import create_client
 import os
 from dotenv import load_dotenv
 
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse
+
 import random
 
 load_dotenv()
@@ -24,9 +27,9 @@ def store_long_url(long_url):
     existing_link = check_link_in_database(long_url)
 
     if existing_link:
-        return existing_link['tinyAlias']
+        return existing_link['tiny_alias']
     
-    tiny_alias = eeeeeeeeeeeeegenerate_tiny_alias()
+    tiny_alias = generate_tiny_alias()
 
     data = {
         "long_url" : long_url,
@@ -43,15 +46,12 @@ def store_long_url(long_url):
         raise
 
 def generate_tiny_alias():
-    characters = "STREAMLINKstreamlink1234567890"
+    characters = "STREAMLINK1234567890"
 
     tiny_alias = ''.join(random.choice(characters) for _ in range(10))
 
     return tiny_alias
 
 
-
-
 if __name__ == "__main__":
-    long_url = str(input("Enter your link: "))
-    store_long_url(long_url)
+    get_user_answer()
