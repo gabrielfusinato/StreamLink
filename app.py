@@ -14,7 +14,7 @@ key = os.getenv("SUPABASE_PUBLISHABLE_KEY")
 
 supabase = create_client(url, key)
 
-def check_link_in_database(check_url):
+def check_long_url_in_database(check_url):
     response = supabase.table("url").select("*").eq("long_url", check_url).execute()
 
     if response.data:
@@ -22,9 +22,23 @@ def check_link_in_database(check_url):
      
     return None
 
+def get_full_url(tiny_alias):
+    if not tiny_alias:
+        return None
+
+    response = supabase.table("url").select("*").eq("tiny_alias", tiny_alias).execute()
+
+    if response.data:
+        print("teste")
+        print(response.data[0]["long_url"])
+        return response.data[0]['long_url']
+     
+    return None
+
+
 def store_long_url(long_url):
 
-    existing_link = check_link_in_database(long_url)
+    existing_link = check_long_url_in_database(long_url)
 
     if existing_link:
         return existing_link['tiny_alias']

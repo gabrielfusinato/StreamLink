@@ -1,11 +1,23 @@
 import streamlit as st
-from app import store_long_url
+from app import store_long_url, get_full_url
+import webbrowser
 
-#DEIXAR MAIS BONITINNHO DEPOIS
+params = st.query_params
+hash = params.get("sl")
+
+site = get_full_url(hash)
+
+if site:
+    if not site.startswith("http"):
+        site = "https://" + site
+    print("opening new tab: " + site)
+    webbrowser.open(site, new = 0, autoraise=True)
+    st.stop()
+
+
 st.title("Stream:blue[Link]")
 st.divider()
 
-#INTEGRAR COM BACK
 url_input = st.text_input("Enter your link below:")
 
 if st.button("Type here to get link.", type="primary"):
@@ -16,6 +28,10 @@ if st.button("Type here to get link.", type="primary"):
         tiny_alias = store_long_url(url_input)
         st.divider()
         st.write("Click to copy your compressed link:")
-        st.code("https://streamlink/" + tiny_alias)
+        st.code("https://streamlink/?sl=" + tiny_alias)
         st.success("Done!")
+
+
+
+
 
