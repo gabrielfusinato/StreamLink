@@ -51,6 +51,7 @@ def store_long_url(long_url):
     }
 
     try:
+        print(data)
         response = supabase.table("url").insert(data).execute()
         print(f"URL <{response.data}> guardada com sucesso!")
         return tiny_alias
@@ -62,7 +63,7 @@ def store_long_url(long_url):
 def generate_tiny_alias():
     characters = "STREAMLINK1234567890"
 
-    tiny_alias = ''.join(random.choice(characters) for _ in range(10))
+    tiny_alias = ''.join(random.choice(characters) for _ in range(7))
 
     return tiny_alias
 
